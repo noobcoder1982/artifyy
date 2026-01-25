@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artify Studios | Graphic Design</title>
-    
+
     <!-- Google Fonts -->
     <!-- hehe mukul bkl -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=La+Belle+Aurore&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=La+Belle+Aurore&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -44,10 +47,11 @@
 
     <style>
         body {
-            cursor: none; /* Hide default cursor */
+            cursor: none;
+            /* Hide default cursor */
             overflow-x: hidden;
         }
-        
+
         /* Custom Cursor */
         #cursor {
             pointer-events: none;
@@ -56,11 +60,13 @@
             left: 0;
             width: 24px;
             height: 24px;
-            background-color: white; /* White for difference mode */
+            background-color: white;
+            /* White for difference mode */
             border-radius: 50%;
             z-index: 9999;
             mix-blend-mode: difference;
-            transform: translate(-50%, -50%); /* Centering logic handled in JS, but good fallback */
+            transform: translate(-50%, -50%);
+            /* Centering logic handled in JS, but good fallback */
             will-change: transform;
         }
 
@@ -87,13 +93,15 @@
         }
     </style>
 </head>
+
 <body class="bg-bg text-gray-900 font-sans antialiased">
 
     <!-- Loading Screen -->
     <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center bg-bg transition-opacity duration-500">
         <div class="relative">
             <div class="w-16 h-16 border-4 border-cyan border-t-yellow border-r-red rounded-full animate-spin"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-xs tracking-widest text-black">
+            <div
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-xs tracking-widest text-black">
                 ARTIFY
             </div>
         </div>
@@ -104,7 +112,8 @@
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full p-6 md:p-10 flex justify-between items-center z-40 mix-blend-difference text-bg">
-        <div class="font-bold text-2xl tracking-tighter z-50 uppercase cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <div class="font-bold text-2xl tracking-tighter z-50 uppercase cursor-pointer"
+            onclick="window.scrollTo({top:0, behavior:'smooth'})">
             Artify<span class="text-cyan">.</span>
         </div>
         <button id="menu-toggle" class="z-50 hover:scale-110 transition-transform focus:outline-none">
@@ -113,25 +122,31 @@
     </nav>
 
     <!-- Full Screen Menu -->
-    <div id="menu-overlay" class="menu-overlay fixed inset-0 bg-[#1a1a1a] text-bg z-30 flex flex-col justify-center px-10 md:px-24 translate-y-[-100%] opacity-0">
+    <div id="menu-overlay"
+        class="menu-overlay fixed inset-0 bg-[#1a1a1a] text-bg z-30 flex flex-col justify-center px-10 md:px-24 translate-y-[-100%] opacity-0">
         <div class="space-y-4 flex flex-col items-start">
-            <button onclick="closeMenu('home')" class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
+            <button onclick="closeMenu('home')"
+                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
                 <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(01)</span>
                 <span class="italic-hover">Home</span>
             </button>
-            <button onclick="closeMenu('work')" class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
+            <button onclick="closeMenu('work')"
+                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
                 <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(02)</span>
                 <span class="italic-hover">Work</span>
             </button>
-            <button onclick="closeMenu('services')" class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
+            <button onclick="closeMenu('services')"
+                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
                 <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(03)</span>
                 <span class="italic-hover">Services</span>
             </button>
-            <button onclick="closeMenu('about')" class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
+            <button onclick="closeMenu('about')"
+                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
                 <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(04)</span>
                 <span class="italic-hover">About</span>
             </button>
-            <button onclick="closeMenu('contact')" class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
+            <button onclick="closeMenu('contact')"
+                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
                 <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(05)</span>
                 <span class="italic-hover">Contact</span>
             </button>
@@ -145,13 +160,17 @@
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section id="home" class="min-h-screen flex flex-col justify-center px-6 md:px-20 relative pt-20 overflow-hidden">
+        <section id="home"
+            class="min-h-screen flex flex-col justify-center px-6 md:px-20 relative pt-20 overflow-hidden">
             <!-- Background Blurs -->
-            <div class="absolute top-1/4 right-[10%] w-64 h-64 rounded-full bg-yellow blur-[80px] opacity-40 animate-pulse"></div>
+            <div
+                class="absolute top-1/4 right-[10%] w-64 h-64 rounded-full bg-yellow blur-[80px] opacity-40 animate-pulse">
+            </div>
             <div class="absolute bottom-1/4 left-[5%] w-72 h-72 rounded-full bg-cyan blur-[100px] opacity-30"></div>
 
             <div class="relative z-10">
-                <h2 class="hero-sub font-mono text-sm md:text-base text-gray-500 mb-4 tracking-widest uppercase opacity-0 translate-y-[20px]">
+                <h2
+                    class="hero-sub font-mono text-sm md:text-base text-gray-500 mb-4 tracking-widest uppercase opacity-0 translate-y-[20px]">
                     Graphic Design Studio
                 </h2>
                 <h1 class="text-6xl md:text-9xl font-extrabold leading-[0.9] tracking-tighter mb-6">
@@ -160,18 +179,20 @@
                         ARTIFY
                     </div>
                     <div class="overflow-hidden flex items-baseline gap-4 mt-2">
-                         <!-- JS will split this: Studios -->
-                        <span class="hero-sub font-serif italic font-normal text-5xl md:text-8xl text-red transform translate-y-1 opacity-0">Studios</span>
+                        <!-- JS will split this: Studios -->
+                        <span
+                            class="hero-sub font-serif italic font-normal text-5xl md:text-8xl text-red transform translate-y-1 opacity-0">Studios</span>
                     </div>
                 </h1>
-                
+
                 <div class="mt-12 max-w-xl hero-sub opacity-0 translate-y-[20px]">
                     <p class="text-xl md:text-2xl leading-relaxed">
-                        <span class="font-cursive text-4xl text-cyan">Mukul Chhabra</span> presents a design experience tailored to your brand.
+                        <span class="font-cursive text-4xl text-cyan">Mukul Chhabra</span> presents a design experience
+                        tailored to your brand.
                     </p>
                     <div class="mt-8 flex items-center gap-2">
-                         <div class="h-[2px] w-12 bg-black"></div>
-                         <p class="italic font-medium text-lg">"Your vision, our creativity"</p>
+                        <div class="h-[2px] w-12 bg-black"></div>
+                        <p class="italic font-medium text-lg">"Your vision, our creativity"</p>
                     </div>
                 </div>
             </div>
@@ -183,47 +204,61 @@
 
         <!-- Services Section -->
         <section id="services" class="py-24 px-6 md:px-20 bg-white">
-            <div class="reveal-section border-t-2 border-black pt-6 mb-16 flex flex-col md:flex-row justify-between items-start opacity-0 translate-y-[50px] blur-[5px]">
+            <div
+                class="reveal-section border-t-2 border-black pt-6 mb-16 flex flex-col md:flex-row justify-between items-start opacity-0 translate-y-[50px] blur-[5px]">
                 <h2 class="text-4xl font-bold uppercase tracking-tight mb-4 md:mb-0">What We Do</h2>
                 <p class="md:max-w-xs text-gray-500 font-mono text-sm">
-                    Precision meets creativity. We offer a full suite of branding services designed to make you stand out.
+                    Precision meets creativity. We offer a full suite of branding services designed to make you stand
+                    out.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
                 <!-- Service Items -->
-                <div class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">01</span>
+                <div
+                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
+                    <span
+                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">01</span>
                     <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Logo Designer</h3>
                     <p class="text-gray-600 font-serif italic">Crafting memorable identities that stick.</p>
                 </div>
 
-                <div class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">02</span>
+                <div
+                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
+                    <span
+                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">02</span>
                     <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Business Cards</h3>
                     <p class="text-gray-600 font-serif italic">First impressions that last forever.</p>
                 </div>
 
-                <div class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">03</span>
+                <div
+                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
+                    <span
+                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">03</span>
                     <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Flyers</h3>
                     <p class="text-gray-600 font-serif italic">Tangible marketing with impact.</p>
                 </div>
 
-                <div class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">04</span>
+                <div
+                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
+                    <span
+                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">04</span>
                     <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Social Media</h3>
                     <p class="text-gray-600 font-serif italic">Engaging posts for the digital age.</p>
                 </div>
 
-                <div class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">05</span>
+                <div
+                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
+                    <span
+                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">05</span>
                     <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Banners</h3>
                     <p class="text-gray-600 font-serif italic">Large format designs that turn heads.</p>
                 </div>
 
-                <div class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">06</span>
+                <div
+                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
+                    <span
+                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">06</span>
                     <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Brochures</h3>
                     <p class="text-gray-600 font-serif italic">Detailed storytelling for your products.</p>
                 </div>
@@ -231,107 +266,128 @@
         </section>
 
         <!-- Work Section -->
-        <section id="work" class="py-24 px-6 md:px-20 bg-[#1a1a1a] text-bg">
-    <!-- Heading -->
-    <div class="reveal-section flex items-end gap-6 mb-16 opacity-0 translate-y-[50px] blur-[5px]">
-        <h2 class="text-5xl md:text-7xl font-bold tracking-tighter">
-            Selected <span class="font-serif italic font-normal text-yellow">Work</span>
+<section id="work" class="bg-[#1a1a1a] text-bg py-28 px-6 md:px-20">
+
+    <!-- Header -->
+    <div class="reveal-section flex items-end gap-6 mb-20">
+        <h2 class="text-5xl md:text-7xl font-bold tracking-tight">
+            Selected <span class="font-serif italic text-yellow">Work</span>
         </h2>
-        <div class="h-[2px] bg-white flex-grow mb-4 opacity-30"></div>
+        <div class="flex-1 h-px bg-white/30 mb-4"></div>
     </div>
 
-    <!-- Work Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <!-- ================= DESIGN ================= -->
+    <div class="mb-28">
+        <h3 class="text-3xl font-bold mb-12">Design</h3>
 
-        <!-- Project 1 -->
-        <div class="group reveal-section cursor-pointer opacity-0 translate-y-[50px] blur-[5px]">
-            <div class="w-full aspect-video overflow-hidden mb-4 rounded-xl">
-                <img src="img/2.jpg" class="w-full h-full object-cover" alt="">
-            </div>
-            <div class="flex justify-between items-baseline">
-                <h3 class="text-2xl font-bold">Live Stream Thumbnail</h3>
-                <span class="text-gray-500 text-sm">2024</span>
-            </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="group reveal-section cursor-pointer md:mt-24 opacity-0 translate-y-[50px] blur-[5px]">
-            <div class="w-full aspect-[3/4] overflow-hidden mb-4 rounded-xl">
-                <img src="img/1.jpg" class="w-full h-full object-cover" alt="">
-            </div>
-            <div class="flex justify-between items-baseline">
-                <h3 class="text-2xl font-bold">Social Campaign</h3>
-                <span class="text-gray-500 text-sm">2023</span>
-            </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="group reveal-section cursor-pointer opacity-0 translate-y-[50px] blur-[5px]">
-            <div class="w-full aspect-video overflow-hidden mb-4 rounded-xl">
-                <img src="img/3.jpg" class="w-full h-full object-cover" alt="">
-            </div>
-            <div class="flex justify-between items-baseline">
-                <h3 class="text-2xl font-bold">Advert</h3>
-                <span class="text-gray-500 text-sm">2024</span>
-            </div>
-        </div>
-
-        <!-- Project 4 -->
-        <div class="group reveal-section cursor-pointer md:mt-24 opacity-0 translate-y-[50px] blur-[5px]">
-            <div class="w-full aspect-video overflow-hidden mb-4 rounded-xl">
-                <img src="img/4.jpg" class="w-full h-full object-cover" alt="">
-            </div>
-            <div class="flex justify-between items-baseline">
-                <h3 class="text-2xl font-bold">Packaging</h3>
-                <span class="text-gray-500 text-sm">2024</span>
-            </div>
-        </div>
-
-        <!-- Germ Monster Label -->
-        <div class="group reveal-section cursor-pointer opacity-0 translate-y-[50px] blur-[5px]">
-            <div class="w-full aspect-[16/9] overflow-hidden mb-4 rounded-xl">
-                <img src="img/GermMonster label.jpg" class="w-full h-full object-cover" alt="Germs Monster Label">
-            </div>
-            <div class="flex justify-between items-baseline">
-                <h3 class="text-2xl font-bold">Germs Monster Label</h3>
-                <span class="text-gray-500 text-sm">Packaging</span>
-            </div>
-        </div>
-
-        <!-- Visiting Card -->
-        <div class="group reveal-section cursor-pointer opacity-0 translate-y-[50px] blur-[5px]">
-            <div class="w-full aspect-video overflow-hidden mb-4 rounded-xl">
-                <img src="img/Visiting Card.jpg" class="w-full h-full object-cover" alt="Visiting Card Design">
-            </div>
-            <div class="flex justify-between items-baseline">
-                <h3 class="text-2xl font-bold">My Cool Star Visiting Card</h3>
-                <span class="text-gray-500 text-sm">Print</span>
-            </div>
-        </div>
-
-        <!-- Logos Section -->
-        <div class="group reveal-section cursor-pointer opacity-0 translate-y-[50px] blur-[5px] md:col-span-2 mt-20">
-            <h3 class="text-3xl font-bold mb-6">Logos</h3>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div>
-                    <div class="w-full aspect-[4/3] bg-white p-6 rounded-xl mb-4">
-                        <img src="img/germ monster logo.jpg" class="w-full h-full object-contain" alt="">
-                    </div>
-                    <p class="text-lg font-semibold">Germ Monster Logo</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-20">
+            
+            <article class="work-card">
+                <div class="work-media aspect-[16/9]">
+                    <img src="img/2.jpg" alt="">
                 </div>
-
-                <div>
-                    <div class="w-full aspect-[4/3] bg-white p-6 rounded-xl mb-4">
-                        <img src="img/My Cool Star - Logo.pdf.jpg" class="w-full h-full object-contain" alt="">
-                    </div>
-                    <p class="text-lg font-semibold">My Cool Star Logo</p>
+                <div class="work-meta">
+                    <h4>Live Stream Thumbnail</h4>
+                    <span>2024</span>
                 </div>
-            </div>
-        </div>
+            </article>
 
+            <article class="work-card">
+                <div class="work-media aspect-[16/9]">
+                    <img src="img/1.jpg" alt="">
+                </div>
+                <div class="work-meta">
+                    <h4>Social Campaign</h4>
+                    <span>2023</span>
+                </div>
+            </article>
+
+            <article class="work-card">
+                <div class="work-media aspect-[16/9]">
+                    <img src="img/3.jpg" alt="">
+                </div>
+                <div class="work-meta">
+                    <h4>Advert</h4>
+                    <span>2024</span>
+                </div>
+            </article>
+
+        </div>
     </div>
+
+    <!-- ================= PACKAGING ================= -->
+    <div class="mb-28">
+        <h3 class="text-3xl font-bold mb-12">Packaging</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-20">
+
+            <article class="work-card">
+                <div class="work-media aspect-[16/9]">
+                    <img src="img/GermMonster label.jpg" alt="">
+                </div>
+                <div class="work-meta">
+                    <h4>Germs Monster Label</h4>
+                    <span>2024</span>
+                </div>
+            </article>
+
+            <article class="work-card">
+                <div class="work-media aspect-[16/9]">
+                    <img src="img/4.jpg" alt="">
+                </div>
+                <div class="work-meta">
+                    <h4>Fan Packaging</h4>
+                    <span>2024</span>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <!-- ================= PRINT ================= -->
+    <div class="mb-28">
+        <h3 class="text-3xl font-bold mb-12">Print</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-20">
+
+            <article class="work-card">
+                <div class="work-media aspect-[16/9]">
+                    <img src="img/Visiting Card.jpg" alt="">
+                </div>
+                <div class="work-meta">
+                    <h4>My Cool Star Visiting Card</h4>
+                    <span>Print</span>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <!-- ================= LOGOS ================= -->
+    <div>
+        <h3 class="text-3xl font-bold mb-12">Logos</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-12">
+
+            <article class="logo-card">
+                <div class="logo-media">
+                    <img src="img/germ_logo.jpg" alt="">
+                </div>
+                <p>Germ Monster Logo</p>
+            </article>
+
+            <article class="logo-card">
+                <div class="logo-media">
+                    <img src="img/My Cool Star - Logo.pdf.jpg" alt="">
+                </div>
+                <p>My Cool Star Logo</p>
+            </article>
+
+        </div>
+    </div>
+
 </section>
+
 
 
         <!-- About Section -->
@@ -341,7 +397,8 @@
                     We believe design is intelligence made <span class="text-cyan font-serif italic">visible</span>.
                 </h2>
                 <p class="text-lg md:text-xl text-gray-600 leading-relaxed">
-                    Based in Bathinda, Artify Studios is led by Mukul Chhabra. We blend Swiss precision with vibrant Indian creativity to deliver designs that don't just look good—they work.
+                    Based in Bathinda, Artify Studios is led by Mukul Chhabra. We blend Swiss precision with vibrant
+                    Indian creativity to deliver designs that don't just look good—they work.
                 </p>
             </div>
         </section>
@@ -355,9 +412,9 @@
                 <div class="reveal-section opacity-0 translate-y-[50px] blur-[5px]">
                     <h3 class="text-gray-500 font-mono text-sm mb-4">ADDRESS</h3>
                     <address class="not-italic text-lg leading-relaxed">
-                        #5351, Street No. 6<br/>
-                        Shakti Nagar, Phase 4<br/>
-                        Bathinda - 151001<br/>
+                        #5351, Street No. 6<br />
+                        Shakti Nagar, Phase 4<br />
+                        Bathinda - 151001<br />
                         Punjab, India
                     </address>
                 </div>
@@ -366,21 +423,26 @@
                     <h3 class="text-gray-500 font-mono text-sm mb-4">CONTACT</h3>
                     <div class="flex flex-col gap-2 text-lg">
                         <a href="tel:+918000004397" class="hover:text-yellow transition-colors">+91 80000 - 04397</a>
-                        <a href="mailto:artifystudio07@gmail.com" class="hover:text-yellow transition-colors">artifystudio07@gmail.com</a>
+                        <a href="mailto:artifystudio07@gmail.com"
+                            class="hover:text-yellow transition-colors">artifystudio07@gmail.com</a>
                     </div>
                 </div>
 
                 <div class="reveal-section opacity-0 translate-y-[50px] blur-[5px]">
                     <h3 class="text-gray-500 font-mono text-sm mb-4">SOCIAL</h3>
-                    <a href="https://instagram.com/artify_studios07" target="_blank" rel="noreferrer" class="flex items-center gap-2 text-lg hover:text-red transition-colors group">
+                    <a href="https://instagram.com/artify_studios07" target="_blank" rel="noreferrer"
+                        class="flex items-center gap-2 text-lg hover:text-red transition-colors group">
                         <i data-lucide="instagram" class="w-5 h-5"></i>
                         <span>@artify_studios07</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
+                        <i data-lucide="arrow-right"
+                            class="w-4 h-4 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
                     </a>
-                    <a href="https://instagram.com/artify_studios07" target="_blank" rel="noreferrer" class="flex items-center gap-2 text-lg hover:text-red transition-colors group">
+                    <a href="https://instagram.com/artify_studios07" target="_blank" rel="noreferrer"
+                        class="flex items-center gap-2 text-lg hover:text-red transition-colors group">
                         <i data-lucide="Facebook" class="w-5 h-5"></i>
                         <span>@artify_studios07</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
+                        <i data-lucide="arrow-right"
+                            class="w-4 h-4 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
                     </a>
                 </div>
 
@@ -392,13 +454,15 @@
                 </div>
             </div>
 
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+            <div
+                class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
                 <p>© 2024 Artify Studios. All Rights Reserved.</p>
                 <p class="mt-2 md:mt-0 font-mono">Designed by Artify</p>
             </div>
-            
+
             <!-- Big Background Text -->
-            <div class="absolute bottom-[-5%] left-1/2 transform -translate-x-1/2 text-[15vw] font-bold text-white opacity-[0.03] whitespace-nowrap pointer-events-none select-none">
+            <div
+                class="absolute bottom-[-5%] left-1/2 transform -translate-x-1/2 text-[15vw] font-bold text-white opacity-[0.03] whitespace-nowrap pointer-events-none select-none">
                 ARTIFY STUDIOS
             </div>
         </footer>
@@ -407,7 +471,7 @@
     <!-- Main Logic -->
     <script>
         // --- 1. Utilities ---
-        
+
         // Custom Text Splitter to simulate React's effect
         function splitText(selector) {
             const elements = document.querySelectorAll(selector);
@@ -444,11 +508,11 @@
             // Intro Sequence
             loadTimeline
                 .to({}, { duration: 0.5 }) // Wait a bit
-                .to("#loader", { 
-                    duration: 0.5, 
+                .to("#loader", {
+                    duration: 0.5,
                     onComplete: () => {
-                        document.getElementById('loader').style.display = 'none'; 
-                    } 
+                        document.getElementById('loader').style.display = 'none';
+                    }
                 })
                 .from(".hero-text-char", {
                     y: 100,
@@ -533,13 +597,14 @@
             menuOverlay.style.opacity = '0';
             menuIcon.setAttribute('data-lucide', 'menu');
             lucide.createIcons();
-            
+
             const element = document.getElementById(targetId);
-            if(element) {
+            if (element) {
                 element.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
     </script>
 </body>
+
 </html>
