@@ -64,6 +64,12 @@ p {
     overflow: hidden;
 }
 
+.contact-info-row {
+    display: flex;
+    justify-content: space-between;
+    will-change: transform;
+}
+
 .contact-info .contact-info-row {
     display: flex;
     justify-content: center;
