@@ -1,51 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact page</title>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
+    <title>Contact — Artify Studios</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.3.17/dist/lenis.min.js"></script> 
-    <link rel="stylesheet" href="contact.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Playfair Display added for the elegant serif "talk" -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#0a0a0a',
+                        surface: '#111111',
+                        orange: '#ff4c00',
+                        cream: '#f5f0eb',
+                        borderColor: '#222222',
+                        textMuted: '#666666',
+                        textDim: '#444444',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Archivo', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            cursor: none;
+            overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: #f5f0eb;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            pointer-events: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            background-color: #ff4c00;
+            z-index: 100000;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+            transition: width 0.2s cubic-bezier(0.16,1,0.3,1), height 0.2s cubic-bezier(0.16,1,0.3,1), background-color 0.2s, border 0.2s, mix-blend-mode 0.2s;
+            border-radius: 50%;
+            mix-blend-mode: difference;
+        }
+        #cursor.hover-link {
+            width: 48px; height: 48px;
+            background-color: #ff4c00;
+            mix-blend-mode: difference;
+        }
+
+        /* Noise texture overlay */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 99998; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        .lets-talk {
+            font-size: clamp(3rem, 21vw, 20rem);
+            line-height: 0.75;
+            letter-spacing: -0.05em;
+            color: #ff4c00;
+            /* Flex to space "let's" and "talk" to opposite ends */
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        
+        .social-circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #ff4c00;
+            color: #0a0a0a;
+            transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), background-color 0.3s;
+        }
+        .social-circle:hover {
+            transform: scale(1.1);
+            background-color: #f5f0eb;
+        }
+
+        ::selection { background: #ff4c00; color: #0a0a0a; }
+    </style>
 </head>
-<body>
-    <section class="contact-visual">
-        <div class="contact-icon">
-            <img src="img/1.png" alt="" srcset="">
-        </div>
-    </section>
-    <section class="contact-info">
-        <div class="contact-info-row">
-            <p>Phone</p>
-            <p>+91 80000-04397</p>
-        </div>
-        <div class="contact-info-row">
-            <p>Adress</p>
-            <p>
-                #5351, Street No. 6<br>
-                Shakti Nagar, Phase 4 <br>
-                Bathinda - 151001 <br>
-                Punjab, India
-            </p>
-        </div>
-        <div class="contact-info-row">
-            <p>Email</p>
-            <p>artifystudio07@gmail.com</p>
-        </div>
+<body class="bg-bg text-cream font-sans antialiased relative h-screen overflow-hidden">
+    <div class="noise-overlay"></div>
+    <div id="cursor"></div>
+
+    <div class="flex flex-col h-full w-full max-w-[1800px] mx-auto px-6 md:px-12 py-6 relative z-10">
         
-        
-        <div class="contact-info-row">
-            <p>Instagram</p>
-            <p>@artify_studios07</p>
+        <!-- HEADER -->
+        <header class="flex justify-between items-center w-full flex-none">
+            <a href="index.html" class="flex items-center gap-3 group select-none cursor-pointer z-20">
+                <div class="w-3 h-3 bg-orange rounded-full group-hover:scale-150 transition-transform duration-300"></div>
+                <span class="font-display font-black text-lg md:text-xl tracking-tight uppercase text-cream">Artify</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 font-mono text-[11px] font-bold uppercase tracking-wider text-textMuted z-20">
+                <a href="index.html" class="hover:text-orange transition-colors duration-300">Home</a>
+                <a href="index.html#work" class="hover:text-orange transition-colors duration-300">Work</a>
+                <a href="index.html#services" class="hover:text-orange transition-colors duration-300">Services</a>
+                <a href="contact.html" class="text-orange">Contact</a>
+            </nav>
+            
+            <!-- Mobile Menu button matching index -->
+            <a href="index.html" class="md:hidden flex items-center gap-2 px-4 py-2 border border-borderColor hover:border-orange hover:bg-orange hover:text-bg font-mono text-[11px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none">
+                <span>Back</span>
+            </a>
+        </header>
+
+        <!-- MAIN SPLIT CONTENT -->
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 w-full mt-8 lg:mt-16 flex-1 min-h-0">
+            
+            <!-- LEFT COLUMN -->
+            <div class="flex flex-col justify-start">
+                <div class="mb-8">
+                    <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-6">Stay up to date</span>
+                    <div class="flex gap-3">
+                        <a href="https://instagram.com/artify_studios07" target="_blank" class="social-circle">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="social-circle">
+                            <i data-lucide="linkedin" class="w-5 h-5 fill-current"></i>
+                        </a>
+                        <a href="#" class="social-circle">
+                            <i data-lucide="facebook" class="w-5 h-5 fill-current"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="flex flex-col justify-start">
+                <div class="mb-10">
+                    <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-4">Write to</span>
+                    <a href="mailto:artifystudio07@gmail.com" class="font-serif text-4xl md:text-5xl lg:text-[4.5rem] leading-none text-cream hover:text-orange transition-colors duration-300 break-words">
+                        artifystudio07@gmail.com
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative w-full pr-0 md:pr-24">
+                    <!-- Location 1 -->
+                    <div>
+                        <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-4">Bathinda</span>
+                        <address class="not-italic font-sans text-sm md:text-base text-textMuted leading-relaxed mb-4">
+                            #5351, Street No. 6<br>
+                            Shakti Nagar, Phase 4<br>
+                            Bathinda — 151001<br>
+                            Punjab, India
+                        </address>
+                        <a href="tel:+918000004397" class="font-mono text-[11px] font-bold tracking-widest text-orange transition-colors underline underline-offset-4 decoration-orange/30 hover:decoration-orange">+91 80000 04397</a>
+                    </div>
+                    
+                    <!-- Location 2 -->
+                    <div>
+                        <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-4">Global</span>
+                        <address class="not-italic font-sans text-sm md:text-base text-textMuted leading-relaxed mb-4">
+                            Available for remote<br>
+                            design collaborations<br>
+                            and international<br>
+                            brand projects.
+                        </address>
+                        <a href="#" class="font-mono text-[11px] font-bold tracking-widest text-orange transition-colors underline underline-offset-4 decoration-orange/30 hover:decoration-orange">REQUEST PORTFOLIO</a>
+                    </div>
+
+                    <!-- Plus Button -->
+                    <div class="md:absolute right-0 top-0 mt-8 md:mt-0">
+                        <button class="w-16 h-16 rounded-full bg-orange flex items-center justify-center text-bg hover:bg-cream hover:scale-110 transition-all duration-300 shadow-xl">
+                            <i data-lucide="plus" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- HUGE TYPOGRAPHY -->
+        <div class="w-full mt-auto flex-none pb-2">
+            <h1 class="lets-talk select-none">
+                <span class="font-display font-black tracking-tighter">let's</span>
+                <span class="font-serif italic font-medium tracking-tight">talk</span>
+            </h1>
         </div>
-        <div class="contact-info-row">
-            <p>Facebook</p>
-            <p>@artifystudio07</p>
-        </div>
-    </section>
-    <script src="contact.js"></script>
-    <!-- y2k stars by Wawan Waluyo from <a href="https://thenounproject.com/browse/icons/term/y2k-stars/" target="_blank" title="y2k stars Icons">Noun Project</a> (CC BY 3.0) -->
+
+        <!-- FOOTER BAR -->
+        <footer class="w-full flex-none flex flex-col md:flex-row justify-between items-center gap-4 border-t border-borderColor pt-4 mt-4">
+            <p class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase">© 2026 Artify Studios. All Rights Reserved.</p>
+            <div class="flex gap-8">
+                <a href="#" class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase hover:text-orange underline underline-offset-4 decoration-borderColor">Legal Notice</a>
+                <a href="#" class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase hover:text-orange underline underline-offset-4 decoration-borderColor">Privacy Policy</a>
+            </div>
+            <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase hover:text-orange flex items-center gap-1 group">
+                Back to Top <i data-lucide="arrow-up" class="w-3 h-3 group-hover:-translate-y-1 transition-transform"></i>
+            </a>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        const cursor = document.getElementById('cursor');
+        window.addEventListener('mousemove', e => {
+            cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+        });
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover-link'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover-link'));
+        });
+    </script>
 </body>
 </html>

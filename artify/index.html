@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artify Studios | Graphic Design</title>
+    <title>Artify Studios — Swiss Brutalist Design Practice</title>
+    <meta name="description" content="Artify Studios is a graphic design practice specializing in branding, packaging, and editorial design with Swiss International precision.">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=La+Belle+Aurore&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,17 +19,21 @@
             theme: {
                 extend: {
                     colors: {
-                        bg: '#fdfbf6',
-                        cyan: '#00aeef',
-                        yellow: '#fff200',
-                        orange: '#f7941d',
-                        red: '#ed1c24',
-                        darkBlue: '#005c99'
+                        bg: '#0a0a0a',
+                        surface: '#111111',
+                        surfaceLight: '#1a1a1a',
+                        orange: '#ff4c00',
+                        cream: '#f5f0eb',
+                        borderColor: '#222222',
+                        textMuted: '#666666',
+                        textDim: '#444444',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        display: ['Archivo', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
                         serif: ['Playfair Display', 'serif'],
-                        cursive: ['La Belle Aurore', 'cursive'],
+                        sixcaps: ['"Six Caps"', 'sans-serif'],
                     }
                 }
             }
@@ -45,63 +48,271 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Six+Caps&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+
         body {
             cursor: none;
-            /* Hide default cursor */
             overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: #f5f0eb;
         }
 
         /* Custom Cursor */
         #cursor {
             pointer-events: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 24px;
-            height: 24px;
-            background-color: white;
-            /* White for difference mode */
-            border-radius: 50%;
-            z-index: 9999;
-            mix-blend-mode: difference;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            background-color: #ff4c00;
+            z-index: 100000;
             transform: translate(-50%, -50%);
-            /* Centering logic handled in JS, but good fallback */
             will-change: transform;
+            transition: width 0.2s cubic-bezier(0.16,1,0.3,1), height 0.2s cubic-bezier(0.16,1,0.3,1), background-color 0.2s, border 0.2s, mix-blend-mode 0.2s;
+            border-radius: 50%;
+            mix-blend-mode: difference;
+        }
+        #cursor.hover-link {
+            width: 48px; height: 48px;
+            background-color: #ff4c00;
+            mix-blend-mode: difference;
+        }
+        #cursor.hover-view {
+            width: 80px; height: 80px;
+            background-color: #ff4c00;
+            mix-blend-mode: difference;
         }
 
-        .hero-text-char {
-            display: inline-block;
-            white-space: pre;
+        /* Marquee */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-reverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+        }
+        .animate-marquee { display: inline-flex; animation: marquee 40s linear infinite; }
+        .animate-marquee-reverse { display: inline-flex; animation: marquee-reverse 35s linear infinite; }
+        .animate-marquee-slow { display: inline-flex; animation: marquee 60s linear infinite; }
+
+        /* Loader styles (preserved) */
+        .loader-word, #loader-percent {
+            display: inline-block; opacity: 0; filter: blur(12px);
+            transform: translateY(15px); will-change: transform, opacity, filter;
+        }
+        .loader-header-item {
+            opacity: 0; filter: blur(5px); transform: translateY(-5px);
             will-change: transform, opacity, filter;
         }
-
-        .italic-hover:hover {
-            font-style: italic;
-            font-family: 'Playfair Display', serif;
+        .dark-brutal-grid {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(255,76,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,76,0,0.03) 1px, transparent 1px);
         }
 
-        /* Menu Transitions */
-        .menu-overlay {
-            transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+        /* Hero reveal */
+        .hero-reveal {
+            opacity: 0; filter: blur(20px); transform: translateY(40px);
+            will-change: transform, opacity, filter;
+        }
+        .hero-reveal-line {
+            opacity: 0; transform: translateY(100%);
+            will-change: transform, opacity;
+        }
+        .hero-fade {
+            opacity: 0; filter: blur(8px);
+            will-change: opacity, filter;
         }
 
-        /* Selection Color */
-        ::selection {
-            background: #fff200;
-            color: black;
+        /* Selection */
+        ::selection { background: #ff4c00; color: #0a0a0a; }
+
+        /* Horizontal scroll for work strip */
+        .work-strip {
+            display: flex; gap: 0;
+            will-change: transform;
         }
+        .work-strip-item {
+            flex-shrink: 0;
+            width: 42vw; height: 56vw;
+            max-width: 600px; max-height: 800px;
+            min-width: 320px; min-height: 420px;
+        }
+        @media (max-width: 768px) {
+            .work-strip-item {
+                width: 80vw; height: 100vw;
+            }
+        }
+
+        /* Line reveal */
+        .line-mask { overflow: hidden; }
+
+        /* Noise texture overlay */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 99998; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        /* Grid lines */
+        .grid-lines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; opacity: 0.04;
+            background-size: calc(100% / 12) 100%;
+            background-image: repeating-linear-gradient(90deg, #ff4c00 0, #ff4c00 1px, transparent 1px, transparent calc(100% / 12));
+        }
+
+        /* Smooth image hover */
+        .img-reveal { 
+            clip-path: inset(0 0 0 0);
+            transition: clip-path 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .img-reveal:hover {
+            clip-path: inset(3% 3% 3% 3%);
+        }
+
+        /* Menu overlay */
+        #menu-overlay {
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        #menu-overlay.is-open {
+            clip-path: inset(0 0 0% 0);
+        }
+
+        /* Project overlay */
+        #project-overlay {
+            transform: translateX(100%);
+            transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        #project-overlay.is-open {
+            transform: translateX(0%);
+        }
+
+        /* Footer CTA huge text */
+        .footer-cta-text {
+            font-size: clamp(3rem, 12vw, 10rem);
+            line-height: 0.85;
+        }
+
+        /* Divider line animation */
+        .divider-line {
+            height: 2px; background: #222; transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        /* Let's Talk Text */
+        .lets-talk {
+            font-size: clamp(3rem, 21vw, 20rem);
+            line-height: 0.75;
+            letter-spacing: -0.05em;
+            color: #ff4c00;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        
+        .social-circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #ff4c00;
+            color: #0a0a0a;
+            transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), background-color 0.3s;
+        }
+        .social-circle:hover {
+            transform: scale(1.1);
+            background-color: #f5f0eb;
+        }
+
+        /* Service hover */
+        .service-row {
+            transition: padding-left 0.4s cubic-bezier(0.16,1,0.3,1), background-color 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .service-row:hover {
+            padding-left: 2rem;
+            background-color: #111;
+        }
+        .service-row:hover .service-num {
+            color: #ff4c00;
+        }
+        .service-row:hover .service-arrow {
+            transform: translateX(0); opacity: 1;
+        }
+        .service-arrow {
+            transform: translateX(-20px); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #ff4c00; }
+
+        .text-stroke-orange {
+            -webkit-text-stroke: 2px #ff4c00;
+            color: transparent;
+        }
+        @media (max-width: 768px) {
+            .text-stroke-orange { -webkit-text-stroke: 1px #ff4c00; }
+        }
+
+        html { scroll-snap-type: y proximity; }
+        section { scroll-snap-align: start; scroll-snap-stop: always; }
     </style>
 </head>
 
-<body class="bg-bg text-gray-900 font-sans antialiased">
+<body>
 
-    <!-- Loading Screen -->
-    <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center bg-bg transition-opacity duration-500">
-        <div class="relative">
-            <div class="w-16 h-16 border-4 border-cyan border-t-yellow border-r-red rounded-full animate-spin"></div>
-            <div
-                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-xs tracking-widest text-black">
-                ARTIFY
+    <!-- Noise Texture Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Grid Lines (editorial column guides) -->
+    <div class="grid-lines"></div>
+
+    <!-- Loading Screen (Redesigned - Massive Typography) -->
+    <div id="loader" class="fixed inset-0 z-50 overflow-hidden pointer-events-none">
+        <div id="loader-shutter-top" class="absolute top-0 left-0 w-full h-1/2 bg-bg border-b border-borderColor pointer-events-auto"></div>
+        <div id="loader-shutter-bottom" class="absolute bottom-0 left-0 w-full h-1/2 bg-bg border-t border-borderColor pointer-events-auto"></div>
+        
+        <div id="loader-content" class="absolute inset-0 z-10 flex flex-col justify-between p-6 md:p-10 select-none pointer-events-none">
+            
+            <div class="flex justify-between items-start text-[10px] md:text-[11px] font-mono font-bold tracking-widest uppercase text-orange">
+                <div class="loader-header-item">Artify Studios</div>
+                <div class="loader-header-item">[ Loading Experience ]</div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row justify-between lg:items-end w-full mt-auto gap-4 overflow-hidden">
+                
+                <!-- Massive Typography matching Contact Page -->
+                <div class="flex flex-col min-h-0 flex-1">
+                    <h1>
+                        <span class="loader-word font-display font-black tracking-tighter text-[22vw] lg:text-[15vw] leading-[0.8] text-cream block">artify</span>
+                        <span class="loader-word font-serif italic font-normal tracking-tight text-[18vw] lg:text-[12vw] leading-[0.85] text-textDim ml-[10%] lg:ml-[20%] block">studios</span>
+                    </h1>
+                </div>
+                
+                <!-- Huge Percentage Counter -->
+                <div id="loader-percent" class="text-[30vw] lg:text-[20vw] leading-none font-sixcaps text-orange h-[30vw] lg:h-[20vw] overflow-hidden relative lg:mb-2">
+                    <div id="loader-percent-reel" class="flex flex-col select-none">
+                        <div class="h-[30vw] lg:h-[20vw] flex items-center justify-end flex-shrink-0">00</div>
+                        <div class="h-[30vw] lg:h-[20vw] flex items-center justify-end flex-shrink-0">18</div>
+                        <div class="h-[30vw] lg:h-[20vw] flex items-center justify-end flex-shrink-0">42</div>
+                        <div class="h-[30vw] lg:h-[20vw] flex items-center justify-end flex-shrink-0">67</div>
+                        <div class="h-[30vw] lg:h-[20vw] flex items-center justify-end flex-shrink-0">89</div>
+                        <div class="h-[30vw] lg:h-[20vw] flex items-center justify-end flex-shrink-0">100</div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -109,501 +320,817 @@
     <!-- Custom Cursor -->
     <div id="cursor"></div>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full p-6 md:p-10 flex justify-between items-center z-40 mix-blend-difference text-bg">
-        <div class="font-bold text-2xl tracking-tighter z-50 uppercase cursor-pointer"
-            onclick="window.scrollTo({top:0, behavior:'smooth'})">
-            Artify<span class="text-cyan">.</span>
+    <!-- ========================================== -->
+    <!-- NAVIGATION -->
+    <!-- ========================================== -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 h-16 md:h-20 z-40 flex justify-between items-center px-6 md:px-10 bg-bg/80 backdrop-blur-md border-b border-borderColor">
+        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="flex items-center gap-3 group select-none">
+            <div class="w-3 h-3 bg-orange rounded-full group-hover:scale-150 transition-transform duration-300"></div>
+            <span class="font-display font-black text-lg md:text-xl tracking-tight uppercase text-cream">Artify</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 font-mono text-[11px] font-bold uppercase tracking-wider text-textMuted">
+            <a href="#work" class="hover:text-orange transition-colors duration-300">Work</a>
+            <a href="#services" class="hover:text-orange transition-colors duration-300">Services</a>
+            <a href="#about" class="hover:text-orange transition-colors duration-300">About</a>
+            <a href="#contact" class="hover:text-orange transition-colors duration-300">Contact</a>
         </div>
-        <button id="menu-toggle" class="z-50 hover:scale-110 transition-transform focus:outline-none">
-            <i data-lucide="menu" id="menu-icon" class="w-8 h-8"></i>
-        </button>
     </nav>
 
-    <!-- Full Screen Menu -->
-    <div id="menu-overlay"
-        class="menu-overlay fixed inset-0 bg-[#1a1a1a] text-bg z-30 flex flex-col justify-center px-10 md:px-24 translate-y-[-100%] opacity-0">
-        <div class="space-y-4 flex flex-col items-start">
-            <button onclick="closeMenu('home')"
-                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
-                <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(0-1)</span>
-                <span class="italic-hover">Home</span>
-            </button>
-            <button onclick="closeMenu('work')"
-                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
-                <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(0-2)</span>
-                <span class="italic-hover">Work</span>
-            </button>
-            <button onclick="closeMenu('services')"
-                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
-                <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(0-3)</span>
-                <span class="italic-hover">Services</span>
-            </button>
-            <button onclick="closeMenu('about')"
-                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
-                <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(0-4)</span>
-                <span class="italic-hover">About</span>
-            </button>
-            <button onclick="closeMenu('contact'); window.location.href='contact.html';"
-                class="group flex items-center gap-4 text-4xl md:text-6xl font-bold uppercase tracking-tighter hover:text-cyan transition-colors duration-300">
-                <span class="text-sm md:text-lg font-normal text-gray-400 font-mono">(0-5)</span>
-                <span class="italic-hover">Contact</span>
-            </button>
-        </div>
-        <div class="absolute bottom-10 left-10 md:left-24 text-gray-500 font-mono text-xs">
-            © 2024 Artify Studios<br />
-            Punjab, India
-        </div>
-    </div>
+    <!-- ========================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================================== -->
+    <main class="relative z-10">
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section id="home"
-            class="min-h-screen flex flex-col justify-center px-6 md:px-20 relative pt-20 overflow-hidden">
-            <!-- Background Blurs -->
-            <div
-                class="absolute top-1/4 right-[10%] w-64 h-64 rounded-full bg-yellow blur-[80px] opacity-40 animate-pulse">
+        <!-- ===== HERO SECTION ===== -->
+        <section id="home" class="relative h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-24 overflow-hidden">
+            <!-- Background oversized watermark -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display font-black text-[30vw] leading-none text-surfaceLight uppercase select-none pointer-events-none opacity-30 whitespace-nowrap hero-fade">
+                A°
             </div>
-            <div class="absolute bottom-1/4 left-[5%] w-72 h-72 rounded-full bg-cyan blur-[100px] opacity-30"></div>
 
-            <div class="relative z-10">
-                <h2
-                    class="hero-sub font-mono text-sm md:text-base text-gray-500 mb-4 tracking-widest uppercase opacity-0 translate-y-[20px]">
-                    Graphic Design Studio
-                </h2>
-                <h1 class="text-6xl md:text-9xl font-extrabold leading-[0.9] tracking-tighter mb-6">
-                    <div class="overflow-hidden" id="hero-title-1">
-                        <!-- JS will split this: ARTIFY -->
-                        ARTIFY
+            <div class="relative z-10 max-w-[1400px] mx-auto w-full">
+                <!-- Top meta row -->
+                <div class="hero-fade flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 md:mb-12">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 bg-orange rounded-full animate-pulse"></div>
+                        <span class="font-mono text-[10px] md:text-[11px] text-textMuted font-bold tracking-widest uppercase">Available for new projects</span>
                     </div>
-                    <div class="overflow-hidden flex items-baseline gap-4 mt-2">
-                        <!-- JS will split this: Studios -->
-                        <span
-                            class="hero-sub font-serif italic font-normal text-5xl md:text-8xl text-red transform translate-y-1 opacity-0">Studios</span>
+                    <div id="hero-clock" class="font-mono text-[11px] text-textDim tracking-wider">
+                        --:--:-- • BATHINDA, IN
                     </div>
-                </h1>
+                </div>
 
-                <div class="mt-12 max-w-xl hero-sub opacity-0 translate-y-[20px]">
-                    <p class="text-xl md:text-2xl leading-relaxed">
-                        <span class="font-cursive text-4xl text-cyan">Mukul Chhabra</span> presents a design experience
-                        tailored to your brand.
-                    </p>
-                    <div class="mt-8 flex items-center gap-2">
-                        <div class="h-[2px] w-12 bg-black"></div>
-                        <p class="italic font-medium text-lg">"Your vision, our creativity"</p>
+                <!-- Main Display Typography -->
+                <div class="mb-12 md:mb-16">
+                    <h1 class="font-display font-black uppercase tracking-tighter leading-[0.82]">
+                        <div class="line-mask"><span class="hero-reveal-line block text-[13vw] md:text-[10vw] text-cream">We Build</span></div>
+                        <div class="line-mask"><span class="hero-reveal-line block text-[13vw] md:text-[10vw] text-orange">Visual</span></div>
+                        <div class="line-mask"><span class="hero-reveal-line block text-[13vw] md:text-[10vw] text-cream">Systems<span class="text-stroke-orange">.</span></span></div>
+                    </h1>
+                </div>
+
+                <!-- Bottom row: tagline + scroll cue -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+                    <div class="hero-fade max-w-md">
+                        <p class="font-sans text-sm md:text-base text-textMuted leading-relaxed">
+                            An independent design practice focused on brand identities, packaging systems, and editorial layouts — built with Swiss precision and brutalist clarity.
+                        </p>
+                    </div>
+                    <div class="hero-fade flex items-center gap-3 font-mono text-[11px] text-textDim uppercase tracking-widest group cursor-pointer" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">
+                        <span class="group-hover:text-orange transition-colors">Scroll</span>
+                        <div class="w-[1px] h-8 bg-textDim group-hover:bg-orange transition-colors relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-full bg-orange animate-pulse"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="absolute bottom-10 right-10 animate-bounce">
-                <i data-lucide="arrow-right" class="transform rotate-90 w-8 h-8"></i>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="py-24 px-6 md:px-20 bg-white">
-            <div
-                class="reveal-section border-t-2 border-black pt-6 mb-16 flex flex-col md:flex-row justify-between items-start opacity-0 translate-y-[50px] blur-[5px]">
-                <h2 class="text-4xl font-bold uppercase tracking-tight mb-4 md:mb-0">What We Do</h2>
-                <p class="md:max-w-xs text-gray-500 font-mono text-sm">
-                    Precision meets creativity. We offer a full suite of branding services designed to make you stand
-                    out.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
-                <!-- Service Items -->
-                <div
-                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span
-                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">01</span>
-                    <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Logo Designer</h3>
-                    <p class="text-gray-600 font-serif italic">Crafting memorable identities that stick.</p>
-                </div>
-
-                <div
-                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span
-                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">02</span>
-                    <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Business Cards</h3>
-                    <p class="text-gray-600 font-serif italic">First impressions that last forever.</p>
-                </div>
-
-                <div
-                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span
-                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">03</span>
-                    <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Flyers</h3>
-                    <p class="text-gray-600 font-serif italic">Tangible marketing with impact.</p>
-                </div>
-
-                <div
-                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span
-                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">04</span>
-                    <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Social Media</h3>
-                    <p class="text-gray-600 font-serif italic">Engaging posts for the digital age.</p>
-                </div>
-
-                <div
-                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span
-                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">05</span>
-                    <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Banners</h3>
-                    <p class="text-gray-600 font-serif italic">Large format designs that turn heads.</p>
-                </div>
-
-                <div
-                    class="service-item group relative pl-6 border-l border-gray-200 hover:border-yellow transition-colors duration-300">
-                    <span
-                        class="absolute -left-[9px] top-0 text-xs font-mono bg-white py-1 text-gray-400 group-hover:text-black transition-colors">06</span>
-                    <h3 class="text-3xl font-bold mb-2 group-hover:text-cyan transition-colors">Brochures</h3>
-                    <p class="text-gray-600 font-serif italic">Detailed storytelling for your products.</p>
+            <!-- Marquee band at bottom of hero -->
+            <div class="absolute bottom-0 left-0 w-full border-t border-borderColor bg-bg/50 backdrop-blur-sm py-3 overflow-hidden">
+                <div class="animate-marquee whitespace-nowrap font-display font-black text-sm md:text-base uppercase tracking-wider text-textDim flex gap-12">
+                    <span>★ Logo Design ★ Branding ★ Packaging ★ Business Cards ★ Flyers ★ Social Media ★ Banners ★ Brochures ★ Editorial ★ Print Design ★</span>
+                    <span>★ Logo Design ★ Branding ★ Packaging ★ Business Cards ★ Flyers ★ Social Media ★ Banners ★ Brochures ★ Editorial ★ Print Design ★</span>
                 </div>
             </div>
         </section>
 
-        <!-- Work Section -->
-<section id="work" class="bg-[#1a1a1a] text-bg py-28 px-6 md:px-20">
+        <!-- ===== SELECTED WORK ===== -->
+        <section id="work" class="py-24 md:py-32 border-t border-borderColor relative overflow-hidden">
+            <div class="px-6 md:px-10 max-w-[1400px] w-full mx-auto mb-12">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                    <div>
+                        <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-3">// Selected Work</span>
+                        <h2 class="font-display font-black text-5xl md:text-7xl lg:text-8xl uppercase tracking-tighter leading-[0.85] text-cream">
+                            Featured<br>Projects
+                        </h2>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterWork('all', this)" class="filter-btn active-filter px-3 py-1.5 border border-orange bg-orange text-bg font-mono text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none hover:bg-orange hover:text-bg">All</button>
+                        <button onclick="filterWork('design', this)" class="filter-btn px-3 py-1.5 border border-borderColor text-textMuted font-mono text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none hover:border-orange hover:text-orange">Design</button>
+                        <button onclick="filterWork('packaging', this)" class="filter-btn px-3 py-1.5 border border-borderColor text-textMuted font-mono text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none hover:border-orange hover:text-orange">Packaging</button>
+                        <button onclick="filterWork('print', this)" class="filter-btn px-3 py-1.5 border border-borderColor text-textMuted font-mono text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none hover:border-orange hover:text-orange">Print</button>
+                        <button onclick="filterWork('logos', this)" class="filter-btn px-3 py-1.5 border border-borderColor text-textMuted font-mono text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none hover:border-orange hover:text-orange">Logos</button>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Header -->
-    <div class="reveal-section flex items-end gap-6 mb-20">
-        <h2 class="text-5xl md:text-7xl font-bold tracking-tight">
-            Selected <span class="font-serif italic text-yellow">Work</span>
-        </h2>
-        <div class="flex-1 h-px bg-white/30 mb-4"></div>
-    </div>
+            <!-- Work Grid (Bento Box) -->
+            <div id="work-grid" class="px-6 md:px-10 max-w-[1400px] w-full mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-0 border-t border-l border-borderColor">
 
-    <!-- ================= DESIGN ================= -->
-    <div class="mb-28">
-        <h3 class="text-3xl font-bold mb-12">Design</h3>
+                    <!-- Project 1 (Bento Span 2x2) -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden md:col-span-2 md:row-span-2 flex flex-col" data-category="logos" onclick="openProject(0)">
+                        <div class="aspect-[4/3] w-full flex-1 overflow-hidden bg-surface relative">
+                            <img src="img/germ_logo.jpg" alt="Germ Monster Logo" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Logo</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">01</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">Germ Monster</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Branding · 2024</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-20">
+                    <!-- Project 2 -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden" data-category="design" onclick="openProject(1)">
+                        <div class="aspect-[4/3] overflow-hidden bg-surface relative">
+                            <img src="img/2.jpg" alt="Live Stream Thumbnail" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Design</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">02</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">Stream Thumbnail</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Digital Artwork · 2024</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 3 -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden" data-category="design" onclick="openProject(2)">
+                        <div class="aspect-[4/3] overflow-hidden bg-surface relative">
+                            <img src="img/1.jpg" alt="Social Campaign" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Design</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">03</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">Social Campaign</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Campaign Layout · 2023</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 4 -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden" data-category="print" onclick="openProject(3)">
+                        <div class="aspect-[4/3] overflow-hidden bg-surface relative">
+                            <img src="img/Visiting Card.jpg" alt="Visiting Card" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Print</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">04</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">Visiting Card</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Print Stationery · 2024</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 5 -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden" data-category="packaging" onclick="openProject(4)">
+                        <div class="aspect-[4/3] overflow-hidden bg-surface relative">
+                            <img src="img/GermMonster label.jpg" alt="Germ Monster Label" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Packaging</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">05</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">Monster Label</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Product Wrap · 2024</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 6 (Bento Span 2x1) -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden md:col-span-2 md:row-span-1 flex flex-col" data-category="design" onclick="openProject(5)">
+                        <div class="aspect-[2/1] w-full flex-1 overflow-hidden bg-surface relative">
+                            <img src="img/3.jpg" alt="Advertisement" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Design</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">06</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">Advertisement</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Promotional · 2024</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 7 -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden" data-category="packaging" onclick="openProject(6)">
+                        <div class="aspect-[4/3] overflow-hidden bg-surface relative">
+                            <img src="img/4.jpg" alt="Fan Packaging" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Packaging</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">07</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">Fan Packaging</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Box Label · 2024</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 8 -->
+                    <article class="work-card border-r border-b border-borderColor group cursor-pointer relative overflow-hidden" data-category="logos" onclick="openProject(7)">
+                        <div class="aspect-[4/3] overflow-hidden bg-surface relative">
+                            <img src="img/My Cool Star - Logo.pdf.jpg" alt="My Cool Star Logo" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 font-mono text-[9px] font-bold text-orange tracking-widest uppercase bg-bg/70 backdrop-blur-sm px-2 py-1 border border-borderColor">Logo</span>
+                        </div>
+                        <div class="p-6 flex justify-between items-end">
+                            <div>
+                                <span class="font-sixcaps text-2xl md:text-3xl text-orange tracking-widest block mb-1">08</span>
+                                <h3 class="font-display font-black text-xl md:text-2xl uppercase tracking-tight text-cream group-hover:text-orange transition-colors duration-300">My Cool Star</h3>
+                                <span class="font-mono text-[10px] text-textDim mt-1 block">Corporate Identity · 2024</span>
+                            </div>
+                            <div class="w-10 h-10 border border-borderColor flex items-center justify-center text-textDim group-hover:bg-orange group-hover:border-orange group-hover:text-bg transition-all duration-300">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SERVICES ===== -->
+        <section id="services" class="h-screen flex flex-col justify-center border-t border-borderColor pt-16 md:pt-20 px-6 md:px-10 relative">
+            <div class="max-w-[1400px] w-full mx-auto h-full flex flex-col py-8 md:py-12 min-h-0">
+                
+                <!-- Header -->
+                <div class="flex-none mb-10 md:mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                    <div>
+                        <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-3">// Capabilities</span>
+                        <h2 class="font-display font-black text-6xl md:text-8xl lg:text-9xl uppercase tracking-tighter leading-none text-cream">
+                            Services
+                        </h2>
+                    </div>
+                    <div class="max-w-md">
+                        <p class="font-sans text-sm md:text-base text-textMuted leading-relaxed">
+                            We approach each project as a system. Every mark, grid, and typeface serves a structural purpose within the larger identity architecture.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service Grid -->
+                <div class="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-borderColor">
+                    
+                    <!-- Service 1 -->
+                    <div class="border-b border-r border-borderColor p-6 md:p-8 flex flex-col justify-between group hover:bg-orange/5 transition-colors duration-300 cursor-pointer relative overflow-hidden">
+                        <span class="font-sixcaps text-6xl md:text-7xl text-textDim group-hover:text-orange transition-colors">01</span>
+                        <div class="mt-8">
+                            <h3 class="font-display font-black text-3xl md:text-4xl uppercase tracking-tight text-cream mb-2 group-hover:text-orange transition-colors">Logo Design</h3>
+                            <span class="font-mono text-[10px] text-textMuted uppercase tracking-wider">Identity / Vector</span>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 md:top-8 md:right-8 w-5 h-5 md:w-6 md:h-6 text-textDim group-hover:text-orange transition-colors"></i>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="border-b border-r border-borderColor p-6 md:p-8 flex flex-col justify-between group hover:bg-orange/5 transition-colors duration-300 cursor-pointer relative overflow-hidden">
+                        <span class="font-sixcaps text-6xl md:text-7xl text-textDim group-hover:text-orange transition-colors">02</span>
+                        <div class="mt-8">
+                            <h3 class="font-display font-black text-3xl md:text-4xl uppercase tracking-tight text-cream mb-2 group-hover:text-orange transition-colors">Business Cards</h3>
+                            <span class="font-mono text-[10px] text-textMuted uppercase tracking-wider">Print / Stationery</span>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 md:top-8 md:right-8 w-5 h-5 md:w-6 md:h-6 text-textDim group-hover:text-orange transition-colors"></i>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="border-b border-r border-borderColor p-6 md:p-8 flex flex-col justify-between group hover:bg-orange/5 transition-colors duration-300 cursor-pointer relative overflow-hidden">
+                        <span class="font-sixcaps text-6xl md:text-7xl text-textDim group-hover:text-orange transition-colors">03</span>
+                        <div class="mt-8">
+                            <h3 class="font-display font-black text-3xl md:text-4xl uppercase tracking-tight text-cream mb-2 group-hover:text-orange transition-colors">Flyers & Pamphlets</h3>
+                            <span class="font-mono text-[10px] text-textMuted uppercase tracking-wider">Promotion / Physical</span>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 md:top-8 md:right-8 w-5 h-5 md:w-6 md:h-6 text-textDim group-hover:text-orange transition-colors"></i>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="border-b border-r border-borderColor p-6 md:p-8 flex flex-col justify-between group hover:bg-orange/5 transition-colors duration-300 cursor-pointer relative overflow-hidden">
+                        <span class="font-sixcaps text-6xl md:text-7xl text-textDim group-hover:text-orange transition-colors">04</span>
+                        <div class="mt-8">
+                            <h3 class="font-display font-black text-3xl md:text-4xl uppercase tracking-tight text-cream mb-2 group-hover:text-orange transition-colors">Social Media</h3>
+                            <span class="font-mono text-[10px] text-textMuted uppercase tracking-wider">Digital / Assets</span>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 md:top-8 md:right-8 w-5 h-5 md:w-6 md:h-6 text-textDim group-hover:text-orange transition-colors"></i>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="border-b border-r border-borderColor p-6 md:p-8 flex flex-col justify-between group hover:bg-orange/5 transition-colors duration-300 cursor-pointer relative overflow-hidden">
+                        <span class="font-sixcaps text-6xl md:text-7xl text-textDim group-hover:text-orange transition-colors">05</span>
+                        <div class="mt-8">
+                            <h3 class="font-display font-black text-3xl md:text-4xl uppercase tracking-tight text-cream mb-2 group-hover:text-orange transition-colors">Packaging</h3>
+                            <span class="font-mono text-[10px] text-textMuted uppercase tracking-wider">Label / Box</span>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 md:top-8 md:right-8 w-5 h-5 md:w-6 md:h-6 text-textDim group-hover:text-orange transition-colors"></i>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="border-b border-r border-borderColor p-6 md:p-8 flex flex-col justify-between group hover:bg-orange/5 transition-colors duration-300 cursor-pointer relative overflow-hidden">
+                        <span class="font-sixcaps text-6xl md:text-7xl text-textDim group-hover:text-orange transition-colors">06</span>
+                        <div class="mt-8">
+                            <h3 class="font-display font-black text-3xl md:text-4xl uppercase tracking-tight text-cream mb-2 group-hover:text-orange transition-colors">Brochures</h3>
+                            <span class="font-mono text-[10px] text-textMuted uppercase tracking-wider">Editorial / Catalog</span>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 md:top-8 md:right-8 w-5 h-5 md:w-6 md:h-6 text-textDim group-hover:text-orange transition-colors"></i>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MARQUEE DIVIDER ===== -->
+        <div class="border-t border-b border-borderColor py-6 overflow-hidden bg-surface">
+            <div class="animate-marquee-reverse whitespace-nowrap font-display font-black text-4xl md:text-6xl uppercase tracking-tighter text-textDim/20 flex gap-16">
+                <span>Design is intelligence made visible ★ Form follows function ★ Less but better ★ Grid is king ★</span>
+                <span>Design is intelligence made visible ★ Form follows function ★ Less but better ★ Grid is king ★</span>
+            </div>
+        </div>
+
+        <!-- ===== ABOUT ===== -->
+        <section id="about" class="h-screen flex flex-col justify-center border-t border-borderColor pt-16 md:pt-20 relative">
+            <div class="px-6 md:px-10 max-w-[1400px] mx-auto w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0">
+                    <!-- Left: Statement -->
+                    <div class="lg:col-span-7 lg:pr-16">
+                        <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-6">// About the Studio</span>
+                        <h2 class="font-display font-black text-4xl md:text-6xl lg:text-7xl uppercase tracking-tighter leading-[0.85] text-cream mb-8">
+                            Precision is<br>our <span class="text-orange">language.</span>
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="font-sans text-base md:text-lg text-textMuted leading-relaxed">
+                                Headquartered in Bathinda, Punjab, Artify Studios is an independent graphic design practice directed by Mukul Chhabra. We apply the logical grids, objective styling, and heavy typographic focus of the Swiss International Style to regional brand identities, print media catalogs, and high-impact commercial packaging solutions.
+                            </p>
+                            <p class="font-sans text-base md:text-lg text-textMuted leading-relaxed">
+                                Every project starts with structure. We believe that design without a grid is noise, and identity without consistency is forgettable. Our work exists at the intersection of editorial rigor and commercial impact.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Stats -->
+                    <div class="lg:col-span-5 lg:border-l lg:border-borderColor lg:pl-16 flex flex-col justify-between">
+                        <div>
+                            <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-8">// Key Metrics</span>
+                            <div class="space-y-8">
+                                <div class="border-b border-borderColor pb-6">
+                                    <div class="font-display font-black text-5xl md:text-6xl text-orange tracking-tighter">50+</div>
+                                    <div class="font-mono text-[11px] text-textDim uppercase tracking-wider mt-1">Brand Identities Delivered</div>
+                                </div>
+                                <div class="border-b border-borderColor pb-6">
+                                    <div class="font-display font-black text-5xl md:text-6xl text-cream tracking-tighter">100+</div>
+                                    <div class="font-mono text-[11px] text-textDim uppercase tracking-wider mt-1">Projects Completed</div>
+                                </div>
+                                <div class="border-b border-borderColor pb-6">
+                                    <div class="font-display font-black text-5xl md:text-6xl text-cream tracking-tighter">2024</div>
+                                    <div class="font-mono text-[11px] text-textDim uppercase tracking-wider mt-1">Studio Established</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-12 pt-6 border-t border-borderColor">
+                            <p class="font-mono text-[10px] text-textDim tracking-wider uppercase">Mukul Chhabra — Founder & Creative Director</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FOOTER (CONTACT PAGE INTEGRATED) ===== -->
+        <section id="contact" class="h-screen pt-24 md:pt-28 pb-6 md:pb-8 border-t border-borderColor relative overflow-hidden flex flex-col justify-between max-w-[1800px] w-full mx-auto px-6 md:px-12">
             
-            <article class="work-card">
-                <div class="work-media aspect-[16/9]">
-                    <img src="img/2.jpg" alt="">
-                </div>
-                <div class="work-meta">
-                    <h4 class="text-2xl font-bold">Live Stream Thumbnail</h4>
-                    <span class="text-2xl font-bold">2024</span>
-                </div>
-            </article>
-
-            <article class="work-card">
-                <div class="work-media aspect-[16/9]">
-                    <img src="img/1.jpg" alt="">
-                </div>
-                <div class="work-meta">
-                    <h4 class="text-2xl font-bold">Social Campaign</h4>
-                    <span class="text-2xl font-bold">2023</span>
-                </div>
-            </article>
-
-            <article class="work-card">
-                <div class="work-media aspect-[16/9]">
-                    <img src="img/3.jpg" alt="">
-                </div>
-                <div class="work-meta">
-                    <h4 class="text-2xl font-bold">Advert</h4>
-                    <span class="text-2xl font-bold">2024</span>
-                </div>
-            </article>
-
-        </div>
-    </div>
-
-    <!-- ================= PACKAGING ================= -->
-    <div class="mb-28">
-        <h3 class="text-3xl font-bold mb-12">Packaging</h3>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-20">
-
-            <article class="work-card">
-                <div class="work-media aspect-[16/9]">
-                    <img src="img/GermMonster label.jpg" alt="">
-                </div>
-                <div class="work-meta">
-                    <h4 class="text-2xl font-bold">Germs Monster Label</h4>
-                    <span class="text-2xl font-bold">2024</span>
-                </div>
-            </article>
-
-            <article class="work-card">
-                <div class="work-media aspect-[16/9]">
-                    <img src="img/4.jpg" alt="">
-                </div>
-                <div class="work-meta">
-                    <h4 class="text-2xl font-bold">Fan Packaging</h4>
-                    <span class="text-2xl font-bold">2024</span>
-                </div>
-            </article>
-
-        </div>
-    </div>
-
-    <!-- ================= PRINT ================= -->
-    <div class="mb-28">
-        <h3 class="text-3xl font-bold mb-12">Print</h3>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-20">
-
-            <article class="work-card">
-                <div class="work-media aspect-[16/9]">
-                    <img src="img/Visiting Card.jpg" alt="">
-                </div>
-                <div class="work-meta">
-                    <h4 class="text-2xl font-bold">My Cool Star Visiting Card</h4>
-                    <span class="text-2xl font-bold">Print</span>
-                </div>
-            </article>
-
-        </div>
-    </div>
-
-    <!-- ================= LOGOS ================= -->
-    <div>
-        <h3 class="text-3xl font-bold mb-12">Logos</h3>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-12">
-
-            <article class="logo-card">
-                <div class="logo-media">
-                    <img src="img/germ_logo.jpg" alt="">
-                </div>
-                <p class="text-2xl font-bold">Germ Monster Logo</p>
-            </article>
-
-            <article class="logo-card">
-                <div class="logo-media">
-                    <img src="img/My Cool Star - Logo.pdf.jpg" alt="">
-                </div>
-                <p class="text-2xl font-bold">My Cool Star Logo</p>
-            </article>
-
-        </div>
-    </div>
-
-</section>
-
-
-
-        <!-- About Section -->
-        <section id="about" class="py-24 px-6 md:px-20 bg-bg">
-            <div class="reveal-section max-w-4xl mx-auto text-center mb-24 opacity-0 translate-y-[50px] blur-[5px]">
-                <h2 class="text-3xl md:text-5xl font-bold leading-tight mb-8">
-                    We believe design is intelligence made <span class="text-cyan font-serif italic">visible</span>.
-                </h2>
-                <p class="text-lg md:text-xl text-gray-600 leading-relaxed">
-                    Based in Bathinda, Artify Studios is led by Mukul Chhabra. We blend Swiss precision with vibrant
-                    Indian creativity to deliver designs that don't just look good—they work.
-                </p>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer id="contact" class="bg-[#1a1a1a] text-white pt-24 pb-12 px-6 md:px-20 relative overflow-hidden">
-            <!-- Decorative gradient -->
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-cyan via-yellow to-red"></div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-24">
-                <div class="reveal-section opacity-0 translate-y-[50px] blur-[5px]">
-                    <h3 class="text-gray-500 font-mono text-sm mb-4">ADDRESS</h3>
-                    <address class="not-italic text-lg leading-relaxed font-bold">
-                        #5351, Street No. 6<br />
-                        Shakti Nagar, Phase 4<br />
-                        Bathinda - 151001<br />
-                        Punjab, India
-                    </address>
-                </div>
-
-                <div class="reveal-section opacity-0 translate-y-[50px] blur-[5px]">
-                    <h3 class="text-gray-500 font-mono text-sm mb-4">CONTACT</h3>
-                    <div class="flex flex-col gap-2 text-lg">
-                        <a href="tel:+918000004397" class="font-bold hover:text-yellow transition-colors cursor-none">+91 80000 - 04397</a>
-                        <a href="mailto:artifystudio07@gmail.com"
-                            class="hover:text-yellow transition-colors cursor-none">artifystudio07@gmail.com</a>
+            <!-- MAIN SPLIT CONTENT -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 w-full">
+                
+                <!-- LEFT COLUMN -->
+                <div class="flex flex-col justify-start">
+                    <div class="mb-10">
+                        <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-6">Stay up to date</span>
+                        <div class="flex gap-3">
+                            <a href="https://instagram.com/artify_studios07" target="_blank" class="social-circle">
+                                <i data-lucide="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="social-circle">
+                                <i data-lucide="linkedin" class="w-5 h-5 fill-current"></i>
+                            </a>
+                            <a href="#" class="social-circle">
+                                <i data-lucide="facebook" class="w-5 h-5 fill-current"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="reveal-section opacity-0 translate-y-[50px] blur-[5px]">
-                    <h3 class="text-gray-500 font-mono text-sm mb-4">SOCIAL</h3>
-                    <a href="https://instagram.com/artify_studios07" target="_blank" rel="noreferrer"
-                        class="flex items-center gap-2 text-lg hover:text-red transition-colors group">
-                        <i data-lucide="instagram" class="w-5 h-5"></i>
-                        <span class="cursor-none">@artify_studios07</span>
-                        <i data-lucide="arrow-right"
-                            class="w-4 h-4 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
-                    </a>
-                    <a href="https://instagram.com/artify_studios07" target="_blank" rel="noreferrer"
-                        class="flex items-center gap-2 text-lg hover:text-red transition-colors group">
-                        <i data-lucide="Facebook" class="w-5 h-5"></i>
-                        <span class="cursor-none">@artify_studios07</span>
-                        <i data-lucide="arrow-right"
-                            class="w-4 h-4 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"></i>
-                    </a>
+                <!-- RIGHT COLUMN -->
+                <div class="flex flex-col justify-start">
+                    <div class="mb-10">
+                        <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-4">Write to</span>
+                        <a href="mailto:artifystudio07@gmail.com" class="font-serif text-4xl md:text-5xl lg:text-[4.5rem] leading-none text-cream hover:text-orange transition-colors duration-300 break-words">
+                            artifystudio07@gmail.com
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative w-full pr-0 md:pr-24">
+                        <!-- Location 1 -->
+                        <div>
+                            <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-4">Bathinda</span>
+                            <address class="not-italic font-sans text-sm md:text-base text-textMuted leading-relaxed mb-4">
+                                #5351, Street No. 6<br>
+                                Shakti Nagar, Phase 4<br>
+                                Bathinda — 151001<br>
+                                Punjab, India
+                            </address>
+                            <a href="tel:+918000004397" class="font-mono text-[11px] font-bold tracking-widest text-orange transition-colors underline underline-offset-4 decoration-orange/30 hover:decoration-orange">+91 80000 04397</a>
+                        </div>
+                        
+                        <!-- Location 2 -->
+                        <div>
+                            <span class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-4">Global</span>
+                            <address class="not-italic font-sans text-sm md:text-base text-textMuted leading-relaxed mb-4">
+                                Available for remote<br>
+                                design collaborations<br>
+                                and international<br>
+                                brand projects.
+                            </address>
+                            <a href="#" class="font-mono text-[11px] font-bold tracking-widest text-orange transition-colors underline underline-offset-4 decoration-orange/30 hover:decoration-orange">REQUEST PORTFOLIO</a>
+                        </div>
+
+                        <!-- Plus Button -->
+                        <div class="md:absolute right-0 top-0 mt-8 md:mt-0">
+                            <button class="w-16 h-16 rounded-full bg-orange flex items-center justify-center text-bg hover:bg-cream hover:scale-110 transition-all duration-300 shadow-xl">
+                                <i data-lucide="plus" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="reveal-section opacity-0 translate-y-[50px] blur-[5px]">
-                    <h3 class="text-gray-500 font-mono text-sm mb-4">INQUIRY</h3>
-                    <p class="text-2xl font-serif italic">
-                        Let's create something <span class="text-yellow">extraordinary</span>.
-                    </p>
+            <!-- HUGE TYPOGRAPHY -->
+            <div class="w-full mt-auto flex-none min-h-0 pt-8">
+                <h1 class="lets-talk select-none">
+                    <span class="font-display font-black tracking-tighter">let's</span>
+                    <span class="font-serif italic font-medium tracking-tight">talk</span>
+                </h1>
+            </div>
+
+            <!-- FOOTER BAR -->
+            <footer class="w-full flex-none flex flex-col md:flex-row justify-between items-center gap-4 border-t border-borderColor pt-4 mt-4">
+                <p class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase">© 2026 Artify Studios. All Rights Reserved.</p>
+                <div class="flex gap-8">
+                    <a href="#" class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase hover:text-orange underline underline-offset-4 decoration-borderColor">Legal Notice</a>
+                    <a href="#" class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase hover:text-orange underline underline-offset-4 decoration-borderColor">Privacy Policy</a>
                 </div>
-            </div>
+                <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="font-mono text-[9px] md:text-[10px] text-textDim tracking-wider uppercase hover:text-orange flex items-center gap-1 group">
+                    Back to Top <i data-lucide="arrow-up" class="w-3 h-3 group-hover:-translate-y-1 transition-transform"></i>
+                </a>
+            </footer>
 
-            <div
-                class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
-                <p>© 2024 Artify Studios. All Rights Reserved.</p>
-                <p class="mt-2 md:mt-0 font-mono">Designed by Artify</p>
-            </div>
+        </section>
 
-            <!-- Big Background Text -->
-            <div
-                class="absolute bottom-[-5%] left-1/2 transform -translate-x-1/2 text-[15vw] font-bold text-white opacity-[0.03] whitespace-nowrap pointer-events-none select-none">
-                ARTIFY STUDIOS
-            </div>
-        </footer>
     </main>
 
-    <!-- Main Logic -->
-    <script>
-        // --- 1. Utilities ---
+    <!-- ========================================== -->
+    <!-- PROJECT DETAIL OVERLAY -->
+    <!-- ========================================== -->
+    <div id="project-overlay" class="fixed inset-0 z-50 bg-bg overflow-y-auto hidden">
+        <!-- Close button -->
+        <button onclick="closeProject()" class="fixed top-6 right-6 z-[60] flex items-center gap-2 px-4 py-2 border border-borderColor bg-bg/80 backdrop-blur-md text-cream hover:bg-orange hover:text-bg hover:border-orange font-mono text-[11px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none">
+            <span>Close</span>
+            <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
 
-        // Custom Text Splitter to simulate React's effect
-        function splitText(selector) {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach(el => {
-                const text = el.innerText.trim();
-                let html = '';
-                for (let char of text) {
-                    html += `<span class="hero-text-char">${char}</span>`;
-                }
-                el.innerHTML = html;
-            });
+        <!-- Content -->
+        <div class="min-h-screen flex flex-col">
+            <!-- Full image -->
+            <div class="w-full h-[50vh] md:h-[70vh] bg-surface relative overflow-hidden">
+                <img id="pd-image" src="" alt="" class="w-full h-full object-contain p-8 md:p-16">
+            </div>
+
+            <!-- Info -->
+            <div class="flex-1 px-6 md:px-10 py-12 md:py-20 max-w-[1400px] mx-auto w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0">
+                    <div class="lg:col-span-7 lg:pr-16">
+                        <span id="pd-category" class="font-mono text-[10px] text-orange font-bold tracking-widest uppercase block mb-4">// Category</span>
+                        <h2 id="pd-title" class="font-display font-black text-5xl md:text-7xl lg:text-8xl uppercase tracking-tighter leading-[0.85] text-cream mb-8">Title</h2>
+                        <p id="pd-desc" class="font-sans text-base md:text-lg text-textMuted leading-relaxed">Description</p>
+                    </div>
+                    <div class="lg:col-span-5 lg:border-l lg:border-borderColor lg:pl-16">
+                        <span class="font-mono text-[10px] text-textDim font-bold tracking-widest uppercase block mb-6">// Project Data</span>
+                        <div class="space-y-0">
+                            <div class="flex justify-between items-center py-4 border-b border-borderColor">
+                                <span class="font-mono text-[11px] text-textDim uppercase">Client</span>
+                                <span id="pd-client" class="font-mono text-[11px] text-cream font-bold uppercase">—</span>
+                            </div>
+                            <div class="flex justify-between items-center py-4 border-b border-borderColor">
+                                <span class="font-mono text-[11px] text-textDim uppercase">Services</span>
+                                <span id="pd-role" class="font-mono text-[11px] text-cream font-bold uppercase">—</span>
+                            </div>
+                            <div class="flex justify-between items-center py-4 border-b border-borderColor">
+                                <span class="font-mono text-[11px] text-textDim uppercase">Year</span>
+                                <span id="pd-year" class="font-mono text-[11px] text-cream font-bold uppercase">—</span>
+                            </div>
+                            <div class="flex justify-between items-center py-4 border-b border-borderColor">
+                                <span class="font-mono text-[11px] text-textDim uppercase">Medium</span>
+                                <span id="pd-medium" class="font-mono text-[11px] text-cream font-bold uppercase">—</span>
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="flex gap-3 mt-8">
+                            <button id="pd-btn-prev" class="flex-1 py-3 border border-borderColor text-textMuted hover:bg-orange hover:text-bg hover:border-orange font-mono text-[11px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none">← Prev</button>
+                            <button id="pd-btn-next" class="flex-1 py-3 bg-orange text-bg border border-orange hover:bg-cream hover:border-cream font-mono text-[11px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none">Next →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCRIPTS -->
+    <!-- ========================================== -->
+    <script>
+        // ====================
+        // PROJECT DATA
+        // ====================
+        const projectsData = [
+            { title:"Germ Monster", category:"Logos", image:"img/germ_logo.jpg", desc:"A bold, character-driven brand identity designed for a modern cleaning and hygiene brand. The visual system utilizes high-contrast grotesque lettering combined with an illustrative character mark to establish a friendly yet powerful shelf presence.", client:"Germ Monster LLC", role:"Brand Identity & Character", year:"2024", medium:"Vector Asset" },
+            { title:"Stream Thumbnail", category:"Design", image:"img/2.jpg", desc:"High-visibility digital thumbnail layouts optimized for maximum click-through rates. Aligned on a strict 16:9 editorial rule, the thumbnail balances heavy grotesque text strokes with high-fidelity subject graphics.", client:"Mukul Chhabra Streams", role:"Digital Artwork & Layout", year:"2024", medium:"Digital / Web" },
+            { title:"Social Campaign", category:"Design", image:"img/1.jpg", desc:"A cohesive set of social campaign assets built for platform grids. The system employs solid black backgrounds, vermillion accents, and stark structural borders to create a premium editorial feed.", client:"Artify Studios", role:"Layout Strategy & Feed Design", year:"2023", medium:"Digital Layouts" },
+            { title:"Visiting Card", category:"Print", image:"img/Visiting Card.jpg", desc:"Minimalist corporate stationery designed for high-end tactile interaction. The business card utilizes a rigorous typographic grid with clean margins and an off-centered emblem.", client:"My Cool Star", role:"Corporate Stationery", year:"2024", medium:"Print / Card" },
+            { title:"Monster Label", category:"Packaging", image:"img/GermMonster label.jpg", desc:"Commercial product wrap for liquid hygiene bottles. Built with physical shelf visibility in mind, the label divides content into clear hierarchies with clinical monospace and a large grotesque title.", client:"Germ Monster LLC", role:"Packaging Architecture", year:"2024", medium:"Print / Label" },
+            { title:"Advertisement", category:"Design", image:"img/3.jpg", desc:"High-impact magazine and web advertisement layouts. Focused on delivering a single, clear typographic message isolated inside a heavy grid border for instant visual dominance.", client:"Artify Promo", role:"Advertising Design", year:"2024", medium:"Print Ad" },
+            { title:"Fan Packaging", category:"Packaging", image:"img/4.jpg", desc:"Large-format commercial cardboard packaging design. The box utilizes high-contrast duotone blocks and technical graphics across multiple dimensional faces for maximum retail shelf impact.", client:"AeroFlow", role:"Structural Packaging", year:"2024", medium:"Cardboard Print" },
+            { title:"My Cool Star", category:"Logos", image:"img/My Cool Star - Logo.pdf.jpg", desc:"A clean corporate brandmark built on geometric principles. The emblem utilizes precise mathematical circular segments to form a stylized star that functions at extreme micro and macro scales.", client:"My Cool Star Co.", role:"Brand Identity Architecture", year:"2024", medium:"Vector Asset" }
+        ];
+
+        // ====================
+        // CLOCK
+        // ====================
+        function updateClock() {
+            const el = document.getElementById('hero-clock');
+            if (!el) return;
+            const now = new Date();
+            let h = now.getHours();
+            const m = String(now.getMinutes()).padStart(2,'0');
+            const s = String(now.getSeconds()).padStart(2,'0');
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            el.textContent = `${String(h).padStart(2,'0')}:${m}:${s} ${ampm} · BATHINDA, IN`;
         }
 
-        // --- 2. Initialization ---
+        // ====================
+        // DOM READY
+        // ====================
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Lucide Icons
             lucide.createIcons();
-
-            // Split Hero Text
-            splitText('#hero-title-1');
-
-            // --- 3. GSAP Animations ---
             gsap.registerPlugin(ScrollTrigger);
+            setInterval(updateClock, 1000);
+            updateClock();
 
-            const loadTimeline = gsap.timeline({
-                onComplete: () => {
-                    // Hide Loader
-                    const loader = document.getElementById('loader');
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 500);
-                }
-            });
-
-            // Intro Sequence
-            loadTimeline
-                .to({}, { duration: 0.5 }) // Wait a bit
-                .to("#loader", {
-                    duration: 0.5,
-                    onComplete: () => {
-                        document.getElementById('loader').style.display = 'none';
-                    }
-                })
-                .from(".hero-text-char", {
-                    y: 100,
-                    opacity: 0,
-                    duration: 1,
-                    stagger: 0.05,
-                    ease: "power4.out",
-                    filter: "blur(10px)"
-                })
-                .to(".hero-sub", { // Reveal subtitle and tagline
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: "power3.out",
-                    stagger: 0.2
-                }, "-=0.5");
-
-            // Scroll Triggers for Sections
-            gsap.utils.toArray('.reveal-section').forEach(section => {
-                gsap.to(section, {
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 85%",
-                    },
-                    opacity: 1,
-                    y: 0,
-                    filter: "blur(0px)",
-                    duration: 1,
-                    ease: "power3.out"
-                });
-            });
-
-            // Service List Animation
-            gsap.utils.toArray('.service-item').forEach((item, i) => {
-                gsap.from(item, {
-                    scrollTrigger: {
-                        trigger: item,
-                        start: "top 90%",
-                    },
-                    x: -50,
-                    opacity: 0,
-                    duration: 0.8,
-                    delay: i * 0.1
-                });
-            });
-
-            // --- 4. Custom Cursor ---
+            // --- Custom Cursor ---
             const cursor = document.getElementById('cursor');
-            window.addEventListener('mousemove', (e) => {
-                // translate(-50%, -50%) keeps it centered on the mouse tip
+            window.addEventListener('mousemove', e => {
                 cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
             });
+            function bindCursorHovers(root) {
+                root.querySelectorAll('button, a, [onclick], .work-card, .service-row, .menu-link').forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover-link'));
+                    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover-link'); cursor.classList.remove('hover-view'); });
+                });
+                root.querySelectorAll('.work-card').forEach(el => {
+                    el.addEventListener('mouseenter', () => { cursor.classList.add('hover-view'); cursor.classList.remove('hover-link'); });
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover-view'));
+                });
+            }
+            bindCursorHovers(document);
+
+            // --- Loader Animation ---
+            const reel = document.getElementById('loader-percent-reel');
+            const steps = [0, 1, 2, 3, 4, 5];
+
+            gsap.to(".loader-word, #loader-percent", {
+                opacity: 1, filter: "blur(0px)", y: 0,
+                duration: 1.2, stagger: 0.1, ease: "power2.out", delay: 0.3
+            });
+            gsap.to(".loader-header-item", {
+                opacity: 1, filter: "blur(0px)", y: 0,
+                duration: 0.8, stagger: 0.05, ease: "power2.out", delay: 0.1
+            });
+
+            const loaderTl = gsap.timeline({ onComplete: exitLoader });
+            steps.forEach((stepIdx, i) => {
+                if (i > 0) {
+                    loaderTl.to(reel, {
+                        yPercent: -stepIdx * (100 / 6),
+                        duration: 0.8, ease: "power3.inOut", delay: 0.6
+                    });
+                }
+            });
+
+            function exitLoader() {
+                gsap.timeline()
+                    .to(".loader-word, #loader-percent, .loader-header-item", {
+                        opacity: 0, y: -30, filter: "blur(8px)",
+                        duration: 0.5, stagger: 0.04, ease: "power2.in"
+                    })
+                    .to("#loader-shutter-top", { yPercent: -100, duration: 1.0, ease: "power4.inOut" }, "-=0.1")
+                    .to("#loader-shutter-bottom", {
+                        yPercent: 100, duration: 1.0, ease: "power4.inOut",
+                        onComplete: () => {
+                            document.getElementById('loader').style.display = 'none';
+                            revealHomepage();
+                        }
+                    }, "-=1.0");
+            }
+
+            function revealHomepage() {
+                const tl = gsap.timeline();
+                // Lines reveal
+                tl.to(".hero-reveal-line", {
+                    opacity: 1, y: 0,
+                    duration: 1.2, stagger: 0.15, ease: "power4.out"
+                });
+                // Fade elements
+                tl.to(".hero-fade", {
+                    opacity: 1, filter: "blur(0px)",
+                    duration: 0.8, stagger: 0.1, ease: "power2.out"
+                }, "-=0.8");
+            }
+
+            // --- Scroll Reveals ---
+            // Work cards stagger
+            gsap.from(".work-card", {
+                scrollTrigger: { trigger: "#work-grid", start: "top 85%" },
+                y: 60, opacity: 0, duration: 0.7, stagger: 0.1, ease: "power3.out"
+            });
+
+            // Service rows
+            gsap.from(".service-row", {
+                scrollTrigger: { trigger: "#services", start: "top 75%" },
+                y: 30, opacity: 0, duration: 0.5, stagger: 0.08, ease: "power2.out"
+            });
+
+            // Divider lines animate in
+            gsap.utils.toArray('.divider-line').forEach(line => {
+                gsap.to(line, {
+                    scrollTrigger: { trigger: line, start: "top 90%" },
+                    scaleX: 1, duration: 1.2, ease: "power3.out"
+                });
+            });
+
+            // ScrollSpy for Nav Highlights
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#main-nav a[href^="#"]');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-40% 0px -60% 0px', // Triggers slightly above the middle
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('text-orange');
+                            link.classList.add('text-textMuted');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('text-orange');
+                                link.classList.remove('text-textMuted');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(sec => observer.observe(sec));
+
+            // Nav remains permanently fixed at top
         });
 
-        // --- 5. Mobile Menu Logic ---
-        let isMenuOpen = false;
-        const menuToggle = document.getElementById('menu-toggle');
-        const menuOverlay = document.getElementById('menu-overlay');
-        const menuIcon = document.getElementById('menu-icon');
+        // (Menu JS Removed)
 
-        menuToggle.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            if (isMenuOpen) {
-                // Open
-                menuOverlay.style.transform = 'translateY(0)';
-                menuOverlay.style.opacity = '1';
-                // Change icon to X
-                menuIcon.setAttribute('data-lucide', 'x');
-            } else {
-                // Close
-                menuOverlay.style.transform = 'translateY(-100%)';
-                menuOverlay.style.opacity = '0';
-                // Change icon to Menu
-                menuIcon.setAttribute('data-lucide', 'menu');
-            }
-            lucide.createIcons(); // Re-render icon change
-        });
+        // ====================
+        // FILTER
+        // ====================
+        window.filterWork = function(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('bg-orange', 'text-bg', 'border-orange', 'active-filter');
+                b.classList.add('border-borderColor', 'text-textMuted');
+            });
+            btn.classList.add('bg-orange', 'text-bg', 'border-orange', 'active-filter');
+            btn.classList.remove('border-borderColor', 'text-textMuted');
 
-        function closeMenu(targetId) {
-            isMenuOpen = false;
-            menuOverlay.style.transform = 'translateY(-100%)';
-            menuOverlay.style.opacity = '0';
-            menuIcon.setAttribute('data-lucide', 'menu');
-            lucide.createIcons();
+            const cards = document.querySelectorAll('.work-card');
+            gsap.to(cards, {
+                opacity: 0, y: 20, scale: 0.98,
+                duration: 0.3, stagger: 0.02, ease: "power2.in",
+                onComplete: () => {
+                    cards.forEach(card => {
+                        const cat = card.getAttribute('data-category');
+                        card.style.display = (category === 'all' || cat === category) ? '' : 'none';
+                    });
+                    const visible = Array.from(cards).filter(c => c.style.display !== 'none');
+                    gsap.fromTo(visible,
+                        { opacity: 0, y: 30, scale: 0.98 },
+                        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.06, ease: "power3.out",
+                          onComplete: () => ScrollTrigger.refresh()
+                        }
+                    );
+                }
+            });
+        };
 
-            const element = document.getElementById(targetId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+        // ====================
+        // PROJECT OVERLAY
+        // ====================
+        window.openProject = function(idx) {
+            const d = projectsData[idx];
+            if (!d) return;
+            document.getElementById('pd-image').src = d.image;
+            document.getElementById('pd-category').textContent = `// ${d.category.toUpperCase()}`;
+            document.getElementById('pd-title').textContent = d.title;
+            document.getElementById('pd-desc').textContent = d.desc;
+            document.getElementById('pd-client').textContent = d.client;
+            document.getElementById('pd-role').textContent = d.role;
+            document.getElementById('pd-year').textContent = d.year;
+            document.getElementById('pd-medium').textContent = d.medium;
 
+            const prevIdx = (idx - 1 + projectsData.length) % projectsData.length;
+            const nextIdx = (idx + 1) % projectsData.length;
+            document.getElementById('pd-btn-prev').onclick = () => changeProject(prevIdx);
+            document.getElementById('pd-btn-next').onclick = () => changeProject(nextIdx);
+
+            const overlay = document.getElementById('project-overlay');
+            overlay.classList.remove('hidden');
+            overlay.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => overlay.classList.add('is-open'));
+
+            // Animate in content
+            gsap.fromTo('#pd-image', { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+            gsap.fromTo('#project-overlay h2, #project-overlay p, #project-overlay span, #project-overlay .flex',
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, delay: 0.5, ease: 'power3.out' }
+            );
+        };
+
+        window.closeProject = function() {
+            const overlay = document.getElementById('project-overlay');
+            overlay.classList.remove('is-open');
+            document.body.style.overflow = '';
+            setTimeout(() => overlay.classList.add('hidden'), 900);
+        };
+
+        window.changeProject = function(nextIdx) {
+            gsap.to('#pd-image', {
+                opacity: 0, duration: 0.3, ease: 'power2.in',
+                onComplete: () => {
+                    const d = projectsData[nextIdx];
+                    document.getElementById('pd-image').src = d.image;
+                    document.getElementById('pd-category').textContent = `// ${d.category.toUpperCase()}`;
+                    document.getElementById('pd-title').textContent = d.title;
+                    document.getElementById('pd-desc').textContent = d.desc;
+                    document.getElementById('pd-client').textContent = d.client;
+                    document.getElementById('pd-role').textContent = d.role;
+                    document.getElementById('pd-year').textContent = d.year;
+                    document.getElementById('pd-medium').textContent = d.medium;
+
+                    const prevIdx = (nextIdx - 1 + projectsData.length) % projectsData.length;
+                    const newNext = (nextIdx + 1) % projectsData.length;
+                    document.getElementById('pd-btn-prev').onclick = () => changeProject(prevIdx);
+                    document.getElementById('pd-btn-next').onclick = () => changeProject(newNext);
+
+                    document.getElementById('project-overlay').scrollTo({ top: 0, behavior: 'smooth' });
+
+                    gsap.fromTo('#pd-image', { opacity: 0, scale: 1.02 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' });
+                }
+            });
+        };
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
     </script>
 </body>
-
 </html>
